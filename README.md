@@ -29,6 +29,7 @@ A flexibilidade do SBC foi demonstrada com a implementação de três bases de c
 python3 kb_agent_menu.py
 ```
 2. Assim que o programa iniciar, você verá o menu principal:
+```
     1. adicionar fato       [af] - Adicionar fato escolhendo variável do catálogo (apenas variáveis de CONDIÇÃO)
     2. adicionar regra      [ar] - Adicionar regra (SE ... ENTÃO ...)
     3. listar fatos         [lf] - Listar fatos
@@ -45,6 +46,7 @@ python3 kb_agent_menu.py
     14. desfazer             [sd] - Desfazer última operação
     15. ajuda                [h] - Mostrar ajuda de todos os comandos
     16. sair                 [q] - Sair
+```
 
 3. Adicione uma regra manualmente (2), importe um conjunto de regras por txt (13) ou importe uma das bases disponíveis no repositório (12).
 
