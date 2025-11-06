@@ -26,7 +26,7 @@ A flexibilidade do SBC foi demonstrada com a implementação de três bases de c
 ## Como Rodar o Projeto
 1. No terminal, execute: 
 ```bash
-python3 kb_agent_menu.py
+python3 agente_base_de_conhecimento.py
 ```
 2. Assim que o programa iniciar, você verá o menu principal:
 ```
@@ -48,7 +48,12 @@ python3 kb_agent_menu.py
     16. sair                 [q] - Sair
 ```
 
-3. Adicione uma regra manualmente (2), importe um conjunto de regras por txt (13) ou importe uma das bases disponíveis no repositório (12).
+3. Adicione uma regra manualmente (2), importe um conjunto de regras por txt (13) ou importe uma das bases disponíveis no repositório (12) digitando o nome completo da base e confirmando em seguida.
+```
+12
+base_diagnostico.json
+s
+```
 
 
 ### Pré-requisitos
