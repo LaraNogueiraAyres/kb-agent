@@ -1,0 +1,394 @@
+{
+  "facts": [],
+  "rules": [
+    {
+      "id": 1,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Usa_máscara",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Homem-Aranha"
+      },
+      "text": "SE É_humano = \"Sim\" E Tem_poderes = \"Sim\" E Usa_máscara = \"Sim\" ENTÃO Personagem = \"Homem-Aranha\""
+    },
+    {
+      "id": 2,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_do_espaco",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Superman"
+      },
+      "text": "SE É_humano = \"Não\" E Tem_poderes = \"Sim\" E É_do_espaco = \"Sim\" ENTÃO Personagem = \"Superman\""
+    },
+    {
+      "id": 3,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "Tem_arma",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Homem de Ferro"
+      },
+      "text": "SE É_humano = \"Sim\" E Tem_poderes = \"Não\" E Tem_arma = \"Sim\" ENTÃO Personagem = \"Homem de Ferro\""
+    },
+    {
+      "id": 4,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_mágico",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Doutor Estranho"
+      },
+      "text": "SE É_humano = \"Sim\" E Tem_poderes = \"Sim\" E É_mágico = \"Sim\" ENTÃO Personagem = \"Doutor Estranho\""
+    },
+    {
+      "id": 5,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_vilão",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Usa_máscara",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Coringa"
+      },
+      "text": "SE É_humano = \"Sim\" E É_vilão = \"Sim\" E Usa_máscara = \"Sim\" ENTÃO Personagem = \"Coringa\""
+    },
+    {
+      "id": 6,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_animal",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_da_Disney",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_famoso_em_desenho",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Vive_no_mar",
+          "op": "=",
+          "value": "Não"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Mickey Mouse"
+      },
+      "text": "SE É_humano = \"Não\" E É_animal = \"Sim\" E É_da_Disney = \"Sim\" E É_famoso_em_desenho = \"Sim\" E Vive_no_mar = \"Não\" ENTÃO Personagem = \"Mickey Mouse\""
+    },
+    {
+      "id": 7,
+      "conditions": [
+        {
+          "attr": "É_animal",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Vive_no_mar",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Bob Esponja"
+      },
+      "text": "SE É_animal = \"Sim\" E Vive_no_mar = \"Sim\" ENTÃO Personagem = \"Bob Esponja\""
+    },
+    {
+      "id": 8,
+      "conditions": [
+        {
+          "attr": "É_animal",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_da_Disney",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Vive_no_mar",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_famoso_em_desenho",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Não"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Pateta"
+      },
+      "text": "SE É_animal = \"Sim\" E É_da_Disney = \"Sim\" E Vive_no_mar = \"Não\" E É_famoso_em_desenho = \"Sim\" E Tem_poderes = \"Não\" ENTÃO Personagem = \"Pateta\""
+    },
+    {
+      "id": 9,
+      "conditions": [
+        {
+          "attr": "É_animal",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_da_Disney",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "Vive_no_mar",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_famoso_em_desenho",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Pernalonga"
+      },
+      "text": "SE É_animal = \"Sim\" E É_da_Disney = \"Não\" E Vive_no_mar = \"Não\" E É_famoso_em_desenho = \"Sim\" ENTÃO Personagem = \"Pernalonga\""
+    },
+    {
+      "id": 10,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_mágico",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Harry Potter"
+      },
+      "text": "SE É_humano = \"Sim\" E É_mágico = \"Sim\" E Tem_poderes = \"Sim\" ENTÃO Personagem = \"Harry Potter\""
+    },
+    {
+      "id": 11,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_mágico",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Gandalf"
+      },
+      "text": "SE É_humano = \"Não\" E É_mágico = \"Sim\" ENTÃO Personagem = \"Gandalf\""
+    },
+    {
+      "id": 12,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_arma",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_vilão",
+          "op": "=",
+          "value": "Não"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Batman"
+      },
+      "text": "SE É_humano = \"Sim\" E Tem_arma = \"Sim\" E Tem_poderes = \"Não\" E É_vilão = \"Não\" ENTÃO Personagem = \"Batman\""
+    },
+    {
+      "id": 13,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tem_arma",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "Tem_poderes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_mágico",
+          "op": "=",
+          "value": "Não"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Capitão América"
+      },
+      "text": "SE É_humano = \"Sim\" E Tem_arma = \"Não\" E Tem_poderes = \"Sim\" E É_mágico = \"Não\" ENTÃO Personagem = \"Capitão América\""
+    },
+    {
+      "id": 14,
+      "conditions": [
+        {
+          "attr": "É_humano",
+          "op": "=",
+          "value": "Não"
+        },
+        {
+          "attr": "É_do_espaco",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "É_animal",
+          "op": "=",
+          "value": "Não"
+        }
+      ],
+      "conclusion": {
+        "attr": "Personagem",
+        "op": "=",
+        "value": "Yoda"
+      },
+      "text": "SE É_humano = \"Não\" E É_do_espaco = \"Sim\" E É_animal = \"Não\" ENTÃO Personagem = \"Yoda\""
+    }
+  ]
+}

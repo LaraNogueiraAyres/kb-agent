@@ -1,0 +1,246 @@
+{
+  "facts": [],
+  "rules": [
+    {
+      "id": 1,
+      "conditions": [
+        {
+          "attr": "Febre",
+          "op": ">=",
+          "value": 38.0
+        },
+        {
+          "attr": "Tosse",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Dor_Corpo",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "Gripe"
+      },
+      "text": "SE Febre >= 38.0 E Tosse = Sim E Dor_Corpo = Sim ENTÃO Diagnostico = Gripe"
+    },
+    {
+      "id": 2,
+      "conditions": [
+        {
+          "attr": "Febre",
+          "op": ">=",
+          "value": 38.0
+        },
+        {
+          "attr": "Tosse",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Perda_Olfato",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "COVID"
+      },
+      "text": "SE Febre >= 38.0 E Tosse = Sim E Perda_Olfato = Sim ENTÃO Diagnostico = COVID"
+    },
+    {
+      "id": 3,
+      "conditions": [
+        {
+          "attr": "Febre",
+          "op": ">=",
+          "value": 38.0
+        },
+        {
+          "attr": "Dor_Articulacoes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Nausea",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Mosquito",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "Dengue"
+      },
+      "text": "SE Febre >= 38.0 E Dor_Articulacoes = Sim E Nausea = Sim E Mosquito = Sim ENTÃO Diagnostico = Dengue"
+    },
+    {
+      "id": 4,
+      "conditions": [
+        {
+          "attr": "Febre",
+          "op": "<",
+          "value": 37.8
+        },
+        {
+          "attr": "Coriza",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Coceira",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "Alergia"
+      },
+      "text": "SE Febre < 37.8 E Coriza = Sim E Coceira = Sim ENTÃO Diagnostico = Alergia"
+    },
+    {
+      "id": 5,
+      "conditions": [
+        {
+          "attr": "Perda_Olfato",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Tosse",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "COVID"
+      },
+      "text": "SE Perda_Olfato = Sim E Tosse = Sim ENTÃO Diagnostico = COVID"
+    },
+    {
+      "id": 6,
+      "conditions": [
+        {
+          "attr": "Dor_Articulacoes",
+          "op": "=",
+          "value": "Sim"
+        },
+        {
+          "attr": "Plaquetas_Baixas",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "Dengue"
+      },
+      "text": "SE Dor_Articulacoes = Sim E Plaquetas_Baixas = Sim ENTÃO Diagnostico = Dengue"
+    },
+    {
+      "id": 7,
+      "conditions": [
+        {
+          "attr": "Saturacao_O2",
+          "op": "<",
+          "value": 94
+        }
+      ],
+      "conclusion": {
+        "attr": "Gravidade",
+        "op": "=",
+        "value": "Alta"
+      },
+      "text": "SE Saturacao_O2 < 94 ENTÃO Gravidade = Alta"
+    },
+    {
+      "id": 8,
+      "conditions": [
+        {
+          "attr": "Febre",
+          "op": ">=",
+          "value": 39.5
+        }
+      ],
+      "conclusion": {
+        "attr": "Gravidade",
+        "op": "=",
+        "value": "Media"
+      },
+      "text": "SE Febre >= 39.5 ENTÃO Gravidade = Media"
+    },
+    {
+      "id": 9,
+      "conditions": [
+        {
+          "attr": "Diagnostico",
+          "op": "=",
+          "value": "Dengue"
+        },
+        {
+          "attr": "Plaquetas_Baixas",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Gravidade",
+        "op": "=",
+        "value": "Alta"
+      },
+      "text": "SE Diagnostico = Dengue E Plaquetas_Baixas = Sim ENTÃO Gravidade = Alta"
+    },
+    {
+      "id": 10,
+      "conditions": [
+        {
+          "attr": "Diagnostico",
+          "op": "=",
+          "value": "Alergia"
+        }
+      ],
+      "conclusion": {
+        "attr": "Gravidade",
+        "op": "=",
+        "value": "Baixa"
+      },
+      "text": "SE Diagnostico = Alergia ENTÃO Gravidade = Baixa"
+    },
+    {
+      "id": 11,
+      "conditions": [
+        {
+          "attr": "Diagnostico",
+          "op": "=",
+          "value": "Gripe"
+        },
+        {
+          "attr": "Perda_Olfato",
+          "op": "=",
+          "value": "Sim"
+        }
+      ],
+      "conclusion": {
+        "attr": "Diagnostico",
+        "op": "=",
+        "value": "COVID"
+      },
+      "text": "SE Diagnostico = Gripe E Perda_Olfato = Sim ENTÃO Diagnostico = COVID"
+    }
+  ]
+}

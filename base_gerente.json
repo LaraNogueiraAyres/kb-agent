@@ -1,0 +1,245 @@
+{
+  "facts": [],
+  "rules": [
+    {
+      "id": 1,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Autônomo"
+        },
+        {
+          "attr": "Garantia",
+          "op": "=",
+          "value": "Adequada"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Moderado"
+      },
+      "text": "SE Emprego = Autônomo E Garantia = Adequada ENTÃO Risco = Moderado"
+    },
+    {
+      "id": 2,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Autônomo"
+        },
+        {
+          "attr": "Garantia",
+          "op": "=",
+          "value": "Nenhuma"
+        },
+        {
+          "attr": "Idade",
+          "op": "=",
+          "value": "Adulto (26–40)"
+        },
+        {
+          "attr": "Dívida",
+          "op": "=",
+          "value": "Alta"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Alto"
+      },
+      "text": "SE Emprego = Autônomo E Garantia = Nenhuma E Idade = Adulto (26–40) E Dívida = Alta ENTÃO Risco = Alto"
+    },
+    {
+      "id": 3,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Autônomo"
+        },
+        {
+          "attr": "Garantia",
+          "op": "=",
+          "value": "Nenhuma"
+        },
+        {
+          "attr": "Idade",
+          "op": "=",
+          "value": "Adulto (26–40)"
+        },
+        {
+          "attr": "Dívida",
+          "op": "=",
+          "value": "Baixa"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Moderado"
+      },
+      "text": "SE Emprego = Autônomo E Garantia = Nenhuma E Idade = Adulto (26–40) E Dívida = Baixa ENTÃO Risco = Moderado"
+    },
+    {
+      "id": 4,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Autônomo"
+        },
+        {
+          "attr": "Garantia",
+          "op": "=",
+          "value": "Nenhuma"
+        },
+        {
+          "attr": "Idade",
+          "op": "=",
+          "value": "Jovem (18–25)"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Alto"
+      },
+      "text": "SE Emprego = Autônomo E Garantia = Nenhuma E Idade = Jovem (18–25) ENTÃO Risco = Alto"
+    },
+    {
+      "id": 5,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Autônomo"
+        },
+        {
+          "attr": "Garantia",
+          "op": "=",
+          "value": "Nenhuma"
+        },
+        {
+          "attr": "Idade",
+          "op": "=",
+          "value": "Meia-idade (41–60)"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Alto"
+      },
+      "text": "SE Emprego = Autônomo E Garantia = Nenhuma E Idade = Meia-idade (41–60) ENTÃO Risco = Alto"
+    },
+    {
+      "id": 6,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Desempregado"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Alto"
+      },
+      "text": "SE Emprego = Desempregado ENTÃO Risco = Alto"
+    },
+    {
+      "id": 7,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Empregado CLT"
+        },
+        {
+          "attr": "Renda",
+          "op": "=",
+          "value": "$15–35k"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Moderado"
+      },
+      "text": "SE Emprego = Empregado CLT E Renda = $15–35k ENTÃO Risco = Moderado"
+    },
+    {
+      "id": 8,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Empregado CLT"
+        },
+        {
+          "attr": "Renda",
+          "op": "=",
+          "value": ">35k"
+        },
+        {
+          "attr": "Dívida",
+          "op": "=",
+          "value": "Alta"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Moderado"
+      },
+      "text": "SE Emprego = Empregado CLT E Renda = >35k E Dívida = Alta ENTÃO Risco = Moderado"
+    },
+    {
+      "id": 9,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Empregado CLT"
+        },
+        {
+          "attr": "Renda",
+          "op": "=",
+          "value": ">35k"
+        },
+        {
+          "attr": "Dívida",
+          "op": "=",
+          "value": "Baixa"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Baixo"
+      },
+      "text": "SE Emprego = Empregado CLT E Renda = >35k E Dívida = Baixa ENTÃO Risco = Baixo"
+    },
+    {
+      "id": 10,
+      "conditions": [
+        {
+          "attr": "Emprego",
+          "op": "=",
+          "value": "Servidor Público"
+        }
+      ],
+      "conclusion": {
+        "attr": "Risco",
+        "op": "=",
+        "value": "Baixo"
+      },
+      "text": "SE Emprego = Servidor Público ENTÃO Risco = Baixo"
+    }
+  ]
+}
