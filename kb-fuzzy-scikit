@@ -1,0 +1,218 @@
+# ---------- imports ----------
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, _tree
+
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+
+# ---------- 1) Base sintética df ----------
+rng = np.random.default_rng(42)
+N = 800
+
+def sample_data(n):
+    experiencia = rng.integers(0, 16, n)       # 0-15 anos
+    tempo = rng.integers(1, 19, n)            # 1-18 meses
+    orc = rng.integers(100, 2001, n)          # 100-2000 (mil BRL)
+    cpx = rng.integers(1, 11, n)              # 1-10
+
+    # score de risco "verdadeiro"
+    base = cpx * 8
+    penal_tempo = np.maximum(0, (cpx - (tempo/2.8))) * 6
+    bonus_exp = experiencia * 2.8
+    bonus_orc = (orc - 800) / 20.0
+    ruido = rng.normal(0, 8, n)
+
+    risco_score = base + penal_tempo - bonus_exp - bonus_orc + ruido
+    risco_score = np.clip(risco_score, 0, 100)
+
+    y = np.digitize(risco_score, bins=[35, 65])  # 0 baixo, 1 moderado, 2 alto
+    return pd.DataFrame({
+        "experiencia": experiencia,
+        "tempo": tempo,
+        "orcamento": orc,
+        "complexidade": cpx,
+        "risco_score": risco_score,
+        "classe": y
+    })
+
+df = sample_data(N)
+
+# ---------- 2) Universos + partições fuzzy (assimétricas) ----------
+U_EXP = np.arange(0, 15.1, 0.1)       # anos
+U_TMP = np.arange(1, 18.1, 0.1)       # meses
+U_ORC = np.arange(100, 2000.1, 1.0)   # mil BRL
+U_CPX = np.arange(1, 10.01, 0.01)     # escala 1-10
+U_RSK = np.arange(0, 100.1, 0.1)      # 0-100
+
+experiencia  = ctrl.Antecedent(U_EXP, 'experiencia')
+tempo        = ctrl.Antecedent(U_TMP, 'tempo')
+orcamento    = ctrl.Antecedent(U_ORC, 'orcamento')
+complexidade = ctrl.Antecedent(U_CPX, 'complexidade')
+risco        = ctrl.Consequent(U_RSK, 'risco')
+
+experiencia['baixa'] = fuzz.trapmf(U_EXP, [0, 0, 2, 4])
+experiencia['media'] = fuzz.trapmf(U_EXP, [3, 5, 8, 11])
+experiencia['alta']  = fuzz.trapmf(U_EXP, [9, 12, 15, 15])
+
+tempo['curto'] = fuzz.trapmf(U_TMP, [1, 1, 3, 5])
+tempo['medio'] = fuzz.trapmf(U_TMP, [4, 6, 9, 12])
+tempo['longo'] = fuzz.trapmf(U_TMP, [10, 14, 18, 18])
+
+orcamento['baixo'] = fuzz.trapmf(U_ORC, [100, 100, 200, 400])
+orcamento['medio'] = fuzz.trapmf(U_ORC, [300, 500, 900, 1200])
+orcamento['alto']  = fuzz.trapmf(U_ORC, [1000, 1400, 2000, 2000])
+
+complexidade['baixa'] = fuzz.trapmf(U_CPX, [1, 1, 2.5, 4])
+complexidade['media'] = fuzz.trapmf(U_CPX, [3, 4.5, 6.5, 8])
+complexidade['alta']  = fuzz.trapmf(U_CPX, [7, 8.5, 10, 10])
+
+risco['baixo']     = fuzz.trapmf(U_RSK, [0, 0, 25, 45])
+risco['moderado']  = fuzz.trapmf(U_RSK, [35, 50, 65, 75])
+risco['alto']      = fuzz.trapmf(U_RSK, [60, 80, 100, 100])
+
+# Dicionários usados mais adiante
+feature_names = ['experiencia','tempo','orcamento','complexidade']
+universes = {
+    'experiencia':  (U_EXP, experiencia),
+    'tempo':        (U_TMP, tempo),
+    'orcamento':    (U_ORC, orcamento),
+    'complexidade': (U_CPX, complexidade)
+}
+risk_map = {0:'baixo', 1:'moderado', 2:'alto'}
+
+# ---------- 3) Treina a árvore ----------
+X = df[['experiencia','tempo','orcamento','complexidade']].to_numpy()
+y = df['classe'].to_numpy()
+Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.3, random_state=0, stratify=y)
+
+dt = DecisionTreeClassifier(max_depth=4, min_samples_leaf=20, random_state=0)
+dt.fit(Xtr, ytr)
+
+# ---------- 4) Funções para converter nós em regras linguísticas ----------
+def interval_overlap_to_labels(var_name, lo, hi, min_mu=0.35):
+    U, ant = universes[var_name]
+    mask = (U >= lo) & (U <= hi)
+    Useg = U[mask]
+    if Useg.size == 0:
+        return []
+    labels = []
+    for lab, term in ant.terms.items():
+        mu = term.mf  # array de pertinências no universo
+        mean_mu = float(np.mean(mu[mask]))
+        if mean_mu >= min_mu:
+            labels.append((lab, mean_mu))
+    labels.sort(key=lambda x: -x[1])
+    return [lab for lab, _ in labels]
+
+def extract_rules_from_tree(tree: DecisionTreeClassifier):
+    tree_ = tree.tree_
+    rules = []
+
+    def recurse(node, constraints):
+        if tree_.feature[node] != _tree.TREE_UNDEFINED:
+            f_idx = tree_.feature[node]
+            thr   = tree_.threshold[node]
+            fname = feature_names[f_idx]
+
+            left_c = constraints.copy()
+            left_c.setdefault(fname, [-np.inf, np.inf])
+            left_c[fname][1] = min(left_c[fname][1], thr)
+            recurse(tree_.children_left[node], left_c)
+
+            right_c = constraints.copy()
+            right_c.setdefault(fname, [-np.inf, np.inf])
+            right_c[fname][0] = max(right_c[fname][0], np.nextafter(thr, np.inf))
+            recurse(tree_.children_right[node], right_c)
+        else:
+            value = tree_.value[node][0]
+            support = int(np.sum(value))
+            prob = value / np.sum(value)
+            cls = int(np.argmax(prob))
+            conf = float(prob[cls])
+
+            antecedentes = []
+            for fname in feature_names:
+                lo, hi = constraints.get(fname, [-np.inf, np.inf])
+                U, ant = universes[fname]
+                lo_c = max(lo, U[0]); hi_c = min(hi, U[-1])
+                labs = interval_overlap_to_labels(fname, lo_c, hi_c, min_mu=0.35)
+                if labs:
+                    antecedentes.append((fname, labs, (lo_c, hi_c)))
+            rules.append({
+                'antecedentes': antecedentes,
+                'classe': cls,
+                'conf': conf,
+                'suporte': support
+            })
+
+    recurse(0, {})
+    return rules
+
+tree_rules = extract_rules_from_tree(dt)
+
+def print_rules(tree_rules, max_labels_per_var=2):
+    out = []
+    for i, r in enumerate(tree_rules, 1):
+        parts = []
+        for fname, labs, _ in r['antecedentes']:
+            labs_ = labs[:max_labels_per_var]
+            parts.append(f"{fname} é " + (" OU ".join(labs_) if len(labs_)>1 else labs_[0]))
+        ante = " E ".join(parts) if parts else "— (sem restrições) —"
+        cons = risk_map[r['classe']]
+        out.append(f"Regra {i}: SE {ante} ENTÃO risco é {cons} "
+                   f"[confiança={r['conf']:.2f}, suporte={r['suporte']}]")
+    return "\n".join(out)
+
+print(print_rules(tree_rules))
+
+# ---------- 5) Converte regras da árvore em skfuzzy.control.Rule ----------
+from itertools import product
+
+from itertools import product
+
+def rules_to_ctrlrules(tree_rules, max_labels_per_var=2, min_conf=0.55):
+    ctrl_rules = []
+    for r in tree_rules:
+        if r['conf'] < min_conf:
+            continue
+        var_terms = []
+        for fname, labs, _interval in r['antecedentes']:
+            labs = labs[:max_labels_per_var]
+            ant = universes[fname][1]  # Antecedent do skfuzzy
+            var_terms.append([ant[l] for l in labs])
+        if not var_terms:
+            continue
+
+        # produto cartesiano dos termos selecionados (distribui os "OU")
+        for combo in product(*var_terms):
+            antecedente = combo[0]
+            for atom in combo[1:]:
+                antecedente = antecedente & atom
+
+            consequente = risco[risk_map[r['classe']]]
+            # >>> AQUI: sem 'weight' no construtor
+            rule = ctrl.Rule(antecedente, consequente, label=f"DT_R{len(ctrl_rules)+1}")
+            # >>> AQUI: atribui o peso depois
+            rule.weight = float(r['conf'])   # [0,1]
+            ctrl_rules.append(rule)
+    return ctrl_rules
+
+
+ctrl_rules_from_dt = rules_to_ctrlrules(tree_rules, max_labels_per_var=2, min_conf=0.55)
+risk_ctrl = ctrl.ControlSystem(ctrl_rules_from_dt)
+risk_sim  = ctrl.ControlSystemSimulation(risk_ctrl)
+
+
+# Monta sistema fuzzy só com regras oriundas da árvore (pode combinar com outras)
+risk_ctrl = ctrl.ControlSystem(ctrl_rules_from_dt)
+risk_sim = ctrl.ControlSystemSimulation(risk_ctrl)
+
+# Exemplo de inferência
+risk_sim.input['experiencia'] = 4
+risk_sim.input['tempo'] = 6
+risk_sim.input['orcamento'] = 350
+risk_sim.input['complexidade'] = 8
+risk_sim.compute()
+print("Risco (crisp):", risk_sim.output['risco'])
